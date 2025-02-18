@@ -1,0 +1,76 @@
+<html>
+    <head>
+        <title>Discord</title>
+        <style>
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+article {
+    display: inline-block;
+    text-align: left;
+}
+.activity {
+    border: 1px black solid;
+    border-radius: 10px;
+    padding: 10px;
+}
+.online {color: green;}
+.offline {color: gray;}
+.dnd {color: red;}
+.idle {color: yellow;}
+
+.spotify {background-color: #1DB954;display: table;clear: both;content:"";}
+.game {background-color: #7289DA;}
+.streaming {background-color: #593695; color:white}
+.unknown {background-color: #99AAB5;color:white;}
+.image {text-align: center;}
+
+.column {
+  float: left;
+  width: 50%;
+}
+code {
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+}
+        </style>
+    </head>
+    <body>
+        <article>
+            <h1>NotLawson <span class="{{status['main']}}">{{status['main']}}</span></h1>
+            {% for activity in status.activities %}
+                {% if activity.type == 'listening' %}
+                <div class="activity spotify">
+                    <div class="column image"><img src="{{activity.cover}}" alt="Album Cover" style="width: 100px; height: 100px;"></div>
+                    <div class="column"><p>Listening to <br><i>{{activity.title}}</i> by <i>{{activity.artist}}</i><br> on Spotify</p></div>
+                </div>
+                {% elif activity.type == 'playing' %}
+                <div class="activity game">
+                    <p>Playing {{activity.name}}<br>({{activity.state}}, {{activity.details}})</p>
+                </div>
+                {% elif activity.type == 'streaming' %}
+                <div class="activity streaming"></div>
+                    <p>Streaming {{activity.name}}<br>(<a href="{{activity.url}}">{{activity.twitch_name}}</a>, {{activity.details}})</p>
+                </div>
+                {% elif activity.type == 'custom' %}
+                <div class="activity custom">
+                    {%if activity.customemoji %}
+                    <p><img src="{{activity.emoji}}" height="20px" width="20px"> {{activity.name}}</p>
+                    {% else %}
+                    <p>{{activity.name}}</p>
+                    {% endif %}
+                </div>
+                <br>
+                {% else %}
+                <div class="activity unknown">
+                    <p>Unknown Activity</p>
+                </div>
+                {% endif %}
+            {% endfor %}
+
+        </article>
+    </body>
+</html>
