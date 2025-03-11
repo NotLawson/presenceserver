@@ -84,4 +84,4 @@ def raw():
     return json.dumps(status, indent=4)
 Thread(target=run_bot_in_thread, daemon=True).start()
 
-app.run("0.0.0.0", 5000)
+app.run("0.0.0.0", secrets["port"], debug=False)
